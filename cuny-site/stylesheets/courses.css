@@ -3,6 +3,22 @@ body {
     /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
 }
 
+a {
+    cursor: pointer;
+}
+
+header {
+    position: absolute;
+    width: 100%;
+    height: 70px;
+    top: 0;
+    margin-bottom: 20px;
+}
+
+.navbar {
+    height: 40px;
+}
+
 .thumb {
     margin: 10px 10px;
 }
