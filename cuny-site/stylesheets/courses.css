@@ -1,0 +1,45 @@
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
+}
+
+.thumb {
+    margin: 10px 10px;
+}
+
+.row div:not(:first-child) {
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+}
+
+.row div:not(:first-child):hover {
+    border: 0.2px lightgrey solid;
+}
+
+.class-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 60px;
+    height: 10px;
+    width: 100%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 20px;
+}
+
+li {
+    display: inline;
+    color: green;
+    cursor: pointer;
+}
+
+footer {
+    margin: 50px 0;
+}

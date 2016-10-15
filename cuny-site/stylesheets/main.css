@@ -1,0 +1,36 @@
+html, body {
+    --bg-main: url("http://colorlisa.com/pictures/33_1.jpg") no-repeat center center;
+    height: 100%;
+}
+
+.content-wrapper {
+    height: 100%;
+    background: var(--bg-main);
+    background-size: cover;
+    color: white;
+}
+
+.login {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(107, 185, 240, 0.6);
+}
+
+svg {
+    margin: 40px auto;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+button {
+    color: black;
+}
