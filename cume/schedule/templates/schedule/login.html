@@ -1,0 +1,38 @@
+{% extends "schedule/base.html" %}
+
+{% load static %}
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'schedule/login.css' %}" />
+{% endblock %}
+{% block title %}CU-Me :){% endblock %}
+
+{% block content %}
+  <main>
+    <img id="guy" src="{% static 'schedule/img/guy.png' %}">
+    <img id="gal" src="{% static 'schedule/img/gal.png' %}">
+    <h1>CU-<span id="me">Me</span></h1>
+    <div id="login">
+      {% if messages %}<div id="errors">{% for message in messages %} {{ message }} {% endfor %}</div>{% endif %}
+      <form id="loginForm" class="pure-form pure-form-aligned" action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="id" name="id" value="{{ id }}" readonly>
+        <div>
+          <label for="id_username">CUNYPortal username</label>
+          <input id="id_username" class="loginInput" name="username" maxlength="100" placeholder="Username" required>
+        </div>
+        <div>
+          <label for="id_password">CUNYPortal password</label>
+          <input id="id_password" class="loginInput" name="password" placeholder="Password" type="password" required>
+        </div>
+        <button id="loginButton" class="pure-button button-forms" type="submit">Log In</button>
+      </form>
+      <div class="progress">
+       <p id="step">Hi :)</p>
+      </div>
+    </div>
+    <div>
+      <h2>Scheduling simplified.</h2>
+    </div>
+  </main>
+  <script type="text/javascript" src="{% static 'schedule/js/login.js' %}"></script>
+{% endblock %}

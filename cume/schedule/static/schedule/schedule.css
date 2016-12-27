@@ -1,0 +1,351 @@
+p{
+  margin: 1% 0 1% 0;
+}
+h1, h2, #scheduleTitle {
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.5em;
+  font-weight: 300;
+  margin: 0;
+  width: 30%;
+  text-decoration: none;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-top: 1%;
+}
+#scheduleTitleContainer {
+  width: 100%;
+  height: 5%;
+  padding-bottom: 1.5%;
+  text-align: center;
+
+}
+#scheduleTitleContainer div {
+  overflow: hidden;
+  width: 30%;
+  margin: auto;
+}
+#scheduleTitleContainer input {
+  width: 85%;
+  float: left;
+}
+#scheduleTitleContainer img {
+  float: left;
+  width: 7%;
+  margin-top: 1%;
+  margin-left: 5%;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+header {
+  border-color: #dca2ef;
+  border-style: solid;
+  border-width: medium;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  margin-bottom: 1%;
+  display: block;
+}
+#logo {
+  width: 50%;
+  float: left;
+  display: block;
+}
+#logo img {
+  margin-left: 20%;
+  width: 30%;
+}
+header nav {
+  width: 50%;
+  float: left;
+}
+header li {
+  list-style: none;
+  width: 33.3%;
+  float: left;
+  text-align: center;
+  line-height: 2.8em;
+  cursor: pointer;
+  color: #44474c;
+}
+header li:hover {
+  color: #7a818c;
+}
+li a {
+  color: #44474c;
+  cursor: pointer;
+}
+li a:hover {
+  color: #7a818c;
+}
+
+main {height: 100%;}
+.collapse {background-color: #a2bbef; cursor: pointer; text-align: center;}
+
+#degree {height: 100%; width: 25%; float: left;}
+#schedule {height: 100%; width: 50%; float: left; position: relative;}
+#search {height: 100%; width: 25%; float:left;}
+
+#degreeContent {width: 95%; height: 100%; margin: auto; overflow: auto;}
+#searchContent {height: 100%;}
+
+#degreeCollapse{
+  padding-right: 5%;
+}
+#searchCollapse{
+  padding-left: 5%;
+}
+
+form fieldset {
+  border: 0;
+}
+label {
+  float: left;
+  width: 50%;
+}
+select {
+  width: 50%;
+  float: left;
+  margin: auto;
+  background-color: #a2bbef;
+  height: 29px;
+  overflow: hidden;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin-bottom: 3%;
+  border: 0;
+}
+
+input {
+  width: 48%;
+  margin-bottom: 3%;
+}
+select:focus, input:focus{
+  outline: none;
+}
+
+table {
+  width: 90%;
+  height: 100%;
+  font-size: 0.8em;
+  text-align: center;
+  border-collapse: collapse;
+  margin: auto;
+}
+td {
+  border-bottom: 1px dotted #dca2ef;
+  border-top: 1px dotted #dca2ef;
+  border-right: 1px solid #dca2ef;
+  border-left: 1px solid #dca2ef;
+}
+td#first {
+  border: 0;
+}
+.day {
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 3px;
+  border-color: #dca2ef;
+  border-style: solid;
+}
+.time {
+  border-left: 0;
+  border-top: 0;
+  border-bottom: 0;
+  border-right: 3px;
+  border-color: #dca2ef;
+  border-style: solid;
+  width: 10%;
+}
+
+.buttonContainer {
+  text-align: center;
+}
+#searchForm {
+  margin-bottom: 2%;
+}
+#searchButton {
+	background-color:#a2bbef;
+	-moz-border-radius:15%;
+	-webkit-border-radius:15%;
+	border-radius:15%;
+  border: 0;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:0.8em;
+	text-decoration:none;
+}
+#searchButton:hover {
+	background-color:#dca2ef;
+}
+
+#searchResults {
+  overflow-y: auto;
+  clear: both;
+  width: 100%;
+  height: 58%;
+}
+.error {
+  text-align: center;
+}
+.courseResult {
+  text-align: center;
+  margin-bottom: 3%;
+}
+.result {
+  float: left;
+  width: 100%;
+  margin-bottom: 3%;
+}
+.add {
+  margin: 5% auto 0 auto;
+  width: 15%;
+  display: block;
+  background-color: #a2bbef;
+  border-radius: 50%;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip:    padding-box;
+  background-clip:         padding-box;
+}
+.add:hover {
+  background-color: #dca2ef;
+  cursor: pointer;
+}
+
+.reqCollapse {
+  padding-right: 2%;
+}
+.req {
+  text-align: center;
+  margin-bottom: 7%;
+}
+.req:hover {
+  cursor: pointer;
+}
+.reqContainer {
+  text-align: center;
+}
+#collegeName {
+  display: none;
+}
+.smallLine {
+  width: 50%;
+  margin: 0 auto 3% auto;
+}
+
+.rmpImg {
+  width: 100%;
+}
+.grades p {
+  width: 50%;
+  float: left;
+  text-align: center;
+  margin: 0;
+  margin-bottom: 3%;
+}
+.gradeId p {
+  color: #2c2e33;
+}
+
+
+#searchHidden {
+  position: relative;
+  width: 100%;
+  background-color:#dca2ef;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  color: #2c2e33;
+  text-align: center;
+}
+#searchHidden img {
+  float: right;
+  width: 7%;
+  margin-right: 10%;
+}
+
+.popup {
+  display: none;
+  color: #FFF;
+}
+.popupAlt {
+  display: none;
+  color: #FFF;
+}
+.popup p {
+  text-align: center;
+}
+.scheduleTooltip {
+  color: #44474c;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+#dayCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+#timeCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+.classCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
+
+.spinnerSearch {
+  margin: 2% auto 3% auto;
+}
+.progress {
+  text-align: center;
+  position: relative;
+  width: 100%;
+  margin: 5% auto 1% auto;
+}
+
+.classOverlay {
+  color: #FFF;
+  position: absolute;
+  z-index: 300;
+  overflow: hidden;
+  text-align: center;
+}
+.classOverlayHover {
+  color: white;
+  position: absolute;
+  z-index: 301;
+  overflow: hidden;
+  text-align: center;
+  background-color: black;
+  opacity: 0.9;
+}
+.removeClassButton {
+  text-align: right;
+  margin-right: 5%;
+  margin-bottom: 5%;
+  cursor: pointer;
+}
+.classOverlayImg {
+  width: 40%;
+  margin: auto;
+  margin-top: 5%;
+}
+.classOverlayImg img {
+  width: 100%;
+}
+.grade {
+  width: 50%;
+  float: left;
+}

@@ -1,0 +1,173 @@
+{% extends "schedule/base.html" %}
+
+{% load static %}
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'schedule/schedule.css' %}" />
+{% endblock %}
+{% block title %}CU-Me :) - Schedule{% endblock %}
+
+{% block content %}
+  <header>
+    <div id=logo><img src="{% static 'schedule/img/cumeLogo.png' %}" alt="logo"></div>
+    <nav>
+      <ul>
+        <li class="help_open"><b>Help</b></li>
+        <li class="about_open"><b>About</b></li>
+        <li><a href="{% url 'logout' %}"><b>Logout</b></a></li>
+    </ul>
+    </nav>
+  </header>
+  <main>
+    <input type="hidden" id="newUser" name="newUser" value="{{ request.session.newUser }}" readonly>
+    <input type="hidden" id="id" name="id" value="{{ request.session.id }}" readonly>
+    <div class="popup" id="tut1">
+      <p>This is CU-Me, a little tool that solves big problems with CUNY class schedule making.</p>
+      <p>Click anywhere outside this text to quickly get started with CU-Me :)</p>
+    </div>
+    <div class="popup scheduleTooltip" id="tut2">
+      <p>This panel shows all the courses you need to take to graduate.</p>
+      <p>You can click on any course to search for sections of it in the coming semester.</p>
+      <p>Clicking the blue bar on top of the panel will hide it.</p>
+    </div>
+    <div class="popup scheduleTooltip" id="tut3">
+      <p>You can search for classes in this panel.</p>
+      <p>It takes time, but classes come with Ratemyprofessors ratings.</p>
+      <p>Again, clicking the blue bar will hide the panel.</p>
+    </div>
+    <div class="popup scheduleTooltip" id="tut4">
+      <p>Added classes will appear in the schedule. Your schedule will always be saved.</p>
+      <p>You can remove a class by clicking on the X at the top of its box.</p>
+      <p>To save the schedule as an image, just press the Picture button next to the schedule title.</p>
+    </div>
+    <div class="popup" id="tut5">
+      <p>That's it! Enjoy CU-Me, and be sure to check the Help section for additional VERY IMPORTANT information!</p>
+    </div>
+    <div class="popup" id="about">
+      <p>CU-Me is a work of <font color="#dca2ef">l<font color="#a2bbef">o</font>ve</font> designed by me, <a href="http://mikmaks.co.nf/" alt="portfolioSite">Maximilian Ioffe</a>.</p>
+      <p>It is still in its Alpha stage, so there may be bugs. Please <a href="mailto:maxioffe@gmail.com">send me</a> any requests, suggestions, and issues, so I can fix them!</p>
+      <p>It is a work-in-progress I am actively developing, so hopefully it'll only grow from here.</p>
+      <p>&nbsp;</p>
+      <p>Please share this site</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>Check the project out on <a href="https://github.com/mikmaks97" alt="github">Github</a></p>
+    </div>
+    <div class="popup" id="help">
+      <p>You can see what courses you still need to take in the left panel.</p>
+      <p>You can click on any class, and Cu-Me will automatically search for sections of that course in the right panel.</p>
+      <p>It can sometimes take quite a bit of time because it is fetching live data from CUNYFirst, and we all know how slow CUNYFirst can be.</p>
+      <p>So relax and soon you'll have a list of classes for your search query. Sections include RatemyProfessors ratings for every professor on RatemyProfessors.</p>
+      <p>Lastly, just click on the plus button below any section and it's added to your schedule! Next time you log in, your newly created schedule will be there to greet you.</p>
+      <p>&nbsp;</p>
+      <p><font color="#ff002e"><b>Caution! Support for combined classes (labs, recitations, discussions) has not been added yet, so your schedule will be incomplete!</b></font></p>
+    </div>
+    <div id="scheduleTitleContainer">
+      <div>
+        <input id="scheduleTitle" placeholder="Your Schedule"></input><img id="btnSave" src="{% static 'schedule/img/save.png' %}" alt="save as image">
+      </div>
+    </div>
+    <div id="degree">
+      <div id="degreeCollapse" class="collapse"> Classes left to complete </div>
+      <div id="degreeContent">
+        <p id="collegeName">{{ request.session.degreeData.schoolName }}</p>
+        {% with firstReq=request.session.degreeData.allRequirements.0 %}
+          {% for req in request.session.degreeData.allRequirements %}
+            {% if req != firstReq %}
+              <hr>
+            {% endif %}
+            <div>
+              <p class="req"><span class="reqCollapse">></span>{{ req.credits }} {{ req.reqWord }} in <b>{{ req.name }}</b></p>
+              <div class="reqContainer">
+                {% with first=req.classes.0 %}
+                  {% for class in req.classes %}
+                    {% if class != first %}
+                      or
+                    {% endif %}
+                    {% if not "@" in class.number %}
+                      <a class="degreeClass" href="">{{ class.code }} {{ class.number }}</a>
+                    {% else %}
+                      {{ class.code }} {{ class.number }}
+                    {% endif %}
+                  {% endfor %}
+                {% endwith %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endwith %}
+      </div>
+    </div>
+    <div id="schedule">
+      <canvas id="dayCanvas">
+          <p>Your browser doesn’t currently support HTML5 Canvas.
+          Please check caniuse.com/#feat=canvas for information on
+          browser support for canvas.</p>
+      </canvas>
+      <canvas id="timeCanvas">
+          <p>Your browser doesn’t currently support HTML5 Canvas.
+          Please check caniuse.com/#feat=canvas for information on
+          browser support for canvas.</p>
+      </canvas>
+    </div>
+    <div id="search">
+      <div id="searchCollapse" class="collapse"> Search </div>
+      <div id="searchContent">
+        <div id="searchHidden">Continue searching :)<img src="{% static 'schedule/img/search.png' %}" alt="Search"></div>
+        <form id="searchForm">
+          {% csrf_token %}
+          <fieldset>
+            <label>School</label>
+            <select name="collegeSelect" form="searchForm">
+              <option value="HTR01">Hunter College</option>
+              <option value="BAR01">Baruch College</option>
+              <option value="CTY01">City College</option>
+            </select>
+            <label>Term</label>
+            <select name="termSelect" form="searchForm">
+              <option value="1172">Spring 2017</option>
+              <option value="BAR01">Fall 2016</option>
+            </select>
+            <label>Course</label>
+            <select name="courseSelect" form="searchForm">
+              <option value="CSCI">Computer Science</option>
+              <option value="ASTRO">Astronomy</option>
+              <option value="GTECH">Geography Technology</option>
+              <option value="DAN">Dance</option>
+              <option value="STAT">Statistics</option>
+            </select>
+          </fieldset>
+          <fieldset>
+            <label>Session</label>
+            <select name="sessionSelect" form="searchForm">
+              <option value=""></option>
+              <option value="WIN">Winter</option>
+            </select>
+            <label>Course Number</label>
+            <input name="numberInput" id="numberInput"></input>
+            <label>Contains?</label>
+            <select name="containsSelect" form="searchForm">
+              <option value=""></option>
+              <option value="C">contains</option>
+              <option value="E">is exactly</option>
+            </select>
+          </fieldset>
+          <div class="buttonContainer"><button class="pure-button button-forms" type="submit">Search</button></div>
+        </form>
+        <div id="searchResults"></div>
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+  <script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.13/jquery.popupoverlay.js"></script>
+  <script type="text/javascript" src="{% static 'schedule/js/canvas.js' %}"></script>
+  <script type="text/javascript" src="{% static 'schedule/js/schedule.js' %}"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      {% if classes %}
+        {% for dbClass in classes %}
+          addClass('{{ dbClass.times }}', '{{ dbClass.name }}', '{{ dbClass.instructor }}', '{{ dbClass.rating }}', '{{ dbClass.room }}', '{{ dbClass.dates }}', false, true)
+        {% endfor %}
+      {% endif %}
+    })
+  </script>
+  <script type="text/javascript" src="{% static 'schedule/js/html2canvas.js' %}"></script>
+{% endblock %}

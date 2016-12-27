@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'schedule/base.css' %}" />
+  <script type="text/javascript" src="{% static 'schedule/js/jquery-3.1.1.min.js' %}"></script>
+  {% block style %}
+  {% endblock %}
+  <title>{% block title %}CUNY :){% endblock %}</title>
+</head>
+
+<body>
+  {% block content %}
+  {% endblock %}
+</body>
+</html>

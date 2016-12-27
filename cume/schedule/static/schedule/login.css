@@ -1,0 +1,66 @@
+body {
+  text-align: center;
+  font-family: 'Lato', sans-serif;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+h1 {
+  color: #a2bbef;
+  font-size: 9em;
+  font-weight: 500;
+  margin: 0;
+}
+#guy {
+  position: absolute;
+  top: 40%;
+  left: 8%;
+  width: 15%;
+}
+#gal{
+  width: 15%;
+  position: absolute;
+  top: 45%;
+  left: 75%;
+}
+
+#me {
+  color: #dca2ef;
+  font-weight: 500;
+}
+
+#login {
+  margin-bottom: 6%;
+}
+
+#loginForm {
+  margin-top: 1%;
+  text-align: center;
+}
+#loginForm div {
+  margin-bottom: 2%;
+}
+label {
+  padding-right: 1%;
+}
+input {
+  margin: auto!important;
+}
+
+h2 {
+  font-weight: 500;
+  font-size: 2.5em;
+}
+
+#errors {
+  background-color: #dca2ef;
+}
+.spinnerLogin {
+  margin: 2% auto 3% auto;
+}
+
+.progress {
+  position: relative;
+  width:50%;
+  margin: 3% auto 1% auto;
+}
