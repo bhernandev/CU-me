@@ -1,9 +1,9 @@
 *.pyc
 *~
 __pycache__
-#manage.py
+manage.py
 .DS_Store
 cume/api/deanPass.py
 cume/ghostdriver.log
-#cume/config/settings/secrets.json
+cume/config/settings/secrets.json
 cume/staticfiles/*
