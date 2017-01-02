@@ -1,6 +1,9 @@
 beautifulsoup4==4.5.1
 bs4==0.0.1
 Django==1.10.4
+EasyProcess==0.2.3
+gunicorn==19.6.0
 psycopg2==2.6.2
+PyVirtualDisplay==0.2.1
 requests==2.12.4
 selenium==3.0.2

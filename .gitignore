@@ -7,3 +7,4 @@ cume/api/deanPass.py
 cume/ghostdriver.log
 cume/config/settings/secrets.json
 cume/staticfiles/*
+cume/launchserver

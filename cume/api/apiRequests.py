@@ -1,3 +1,4 @@
+from pyvirtualdisplay import Display
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
@@ -16,8 +17,11 @@ from operator import itemgetter
 
 def classSearch(college, term, dept, number, selector, session, step, clientId):
     step[clientId] = "Accessing CUNYFirst Search"
-    browser = webdriver.PhantomJS()#('/Users/mikmaks/Documents/Code/django/cunyhack/CUNYsecond/api/chromedriver')
-    browser.set_window_size(800, 600)
+
+    display = Display(visible=0, size=(800, 600))
+    display.start()
+    browser = webdriver.Chrome()
+
     browser.get('https://hrsa.cunyfirst.cuny.edu/psc/cnyhcprd/GUEST/HRMxS/c/COMMUNITY_ACCESS.CLASS_SEARCH.GBL')
 
     step[clientId] = "Passing search terms"
@@ -157,8 +161,11 @@ def getGrade(item):
 
 def degreeClasses(userName, passWord, step, clientId):
     step[clientId] = "Connecting to CUNYPortal"
-    browser = webdriver.PhantomJS()#('/Users/mikmaks/Documents/Code/django/cunyhack/CUNYsecond/api/chromedriver')
-    browser.set_window_size(800, 600)
+
+    display = Display(visible=0, size=(800, 600))
+    display.start()
+    browser = webdriver.Chrome()
+
     browser.get('https://cunyportal.cuny.edu/cpr/authenticate/portal_login.jsp')
 
     step[clientId] = "Logging into CUNYPortal"

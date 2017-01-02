@@ -19,6 +19,7 @@ def get_secret(setting, secrets=secrets):
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+PROJECT_ROOT_DIR = os.path.dirname(os.path.join('..', BASE_DIR))
 
 SECRET_KEY = get_secret("SECRET_KEY")
 

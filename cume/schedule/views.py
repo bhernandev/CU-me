@@ -14,8 +14,10 @@ import re, operator
 
 import uuid
 
-import sys
-sys.path.insert(0, '/Users/mikmaks/Documents/Code/django/cunyhack/CUNYsecond/api')
+from django.conf import settings
+import os, sys
+apiDir = os.path.join(settings.PROJECT_ROOT_DIR, 'api')
+sys.path.insert(0, apiDir)
 import apiRequests
 
 loggingInSteps = {}
