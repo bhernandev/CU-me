@@ -13,7 +13,7 @@ $(document).ready(function() {
       let willstop = 0
       var poll = function() {
         $.ajax({
-          url:'poll_state/',
+          url:'http://104.131.45.74/poll_state/',
           type: 'POST',
           data: {
               csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),

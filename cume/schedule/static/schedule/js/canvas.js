@@ -377,7 +377,7 @@ $(document).ready(function() {
 
   function addClassToDB(newClassName, newClassTimes, newClassInstructor, newClassRating, newClassRoom, newClassDates) {
     $.ajax({
-      url:'http://localhost:8000/class_add/',
+      url:'http://104.131.45.74/class_add/',
       type: 'POST',
       data: {
           csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
@@ -395,7 +395,7 @@ $(document).ready(function() {
   }
   function deleteClassFromDB(removeClassName) {
     $.ajax({
-      url:'http://localhost:8000/class_delete/',
+      url:'http://104.131.45.74/class_delete/',
       type: 'POST',
       data: {
           csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),

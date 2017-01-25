@@ -14,4 +14,5 @@ class Class(models.Model):
         return self.name
 
     def as_dict(self):
-        return {'name': self.name, 'times': self.tiimes, 'instructor': self.instructor, 'rating': self.rating, 'room': self.room, 'dates': self.dates}
+        return {'name': self.name, 'times': self.times, 'instructor': self.instructor, 'rating': self.rating, 'room': self.room, 'dates': self.dates}
+

@@ -13,18 +13,12 @@ from bs4 import BeautifulSoup
 import re
 from operator import itemgetter
 
-#import deanPass
-
-def classSearch(college, term, dept, number, selector, session, step, clientId):
-    step[clientId] = "Accessing CUNYFirst Search"
-
+def classSearch(college, term, dept, number, selector, session):
     display = Display(visible=0, size=(800, 600))
     display.start()
     browser = webdriver.Chrome()
 
     browser.get('https://hrsa.cunyfirst.cuny.edu/psc/cnyhcprd/GUEST/HRMxS/c/COMMUNITY_ACCESS.CLASS_SEARCH.GBL')
-
-    step[clientId] = "Passing search terms"
     deptName = ""
     collegeName = ""
     try:
@@ -83,7 +77,6 @@ def classSearch(college, term, dept, number, selector, session, step, clientId):
 
     browser.find_element_by_name('CLASS_SRCH_WRK2_SSR_PB_CLASS_SRCH').click()
 
-    step[clientId] = "Getting search results"
     courses = []
     try:
         element = WebDriverWait(browser, 10).until(
@@ -96,7 +89,6 @@ def classSearch(college, term, dept, number, selector, session, step, clientId):
     courseList = browser.find_elements_by_xpath('//*[@id="ACE_$ICField$4$$0"]/tbody/tr')
     courseList.pop(0)
 
-    step[clientId] = "Scraping class info"
     sectionCounter = 0
     for course in courseList:
         courseName = course.find_element_by_id('win0divSSR_CLSRSLT_WRK_GROUPBOX2GP$' + str(courseList.index(course))).text
@@ -110,8 +102,10 @@ def classSearch(college, term, dept, number, selector, session, step, clientId):
                     sectionInstructor = section.find_element_by_id('MTG_INSTR$' + str(sectionCounter)).text
                     sectionMeetingDates = section.find_element_by_id('MTG_TOPIC$' + str(sectionCounter)).text
 
-                    step[clientId] = "Getting RateMyProfessors rating for a professor"
-                    instructorGrades = professorRating(sectionInstructor.split(',')[0], collegeName, deptName.split('-')[1].strip().split(' '))
+                    searchProfName = sectionInstructor.split(',')[0]
+                    instructorGrades = {}
+                    if (searchProfName != "Staff"):
+                        instructorGrades = professorRating(searchProfName, collegeName, deptName.split('-')[1].strip().split(' '))
 
                     sectionDict = {'times': sectionTimes, 'room': sectionRoom, 'instructor': sectionInstructor, 'instructorGrades': instructorGrades, 'meetingDates': sectionMeetingDates}
                     sections.append(sectionDict)
@@ -122,12 +116,12 @@ def classSearch(college, term, dept, number, selector, session, step, clientId):
         if courseDict['sections']:
             courses.append(courseDict)
 
-    step[clientId] = "Done"
     browser.quit()
     return {"departmentName": deptName, "courses": courses}
 
 
 def professorRating(name, school, dept):
+    print(name)
     query = {'query': name}
     searchResult = requests.get('http://www.ratemyprofessors.com/search.jsp', params=query)
     soup = BeautifulSoup(searchResult.text, 'html.parser')
@@ -135,8 +129,9 @@ def professorRating(name, school, dept):
     if listings:
         for listing in listings:
             span = listing.find('span', class_="sub")
-            searchSchool, searchDept = span.string.split(',')
-            searchDept = searchDept.strip()
+            searchList = span.string.split(',')
+            searchSchool = searchList[0]
+            searchDept = searchList[1].strip()
             if (searchSchool == school and any(depWord in searchDept for depWord in dept)):
                 try:
                     detailsLink = 'http://www.ratemyprofessors.com' + listing.find('a').get('href')
@@ -159,16 +154,12 @@ def getGrade(item):
         key = '0'
     return key
 
-def degreeClasses(userName, passWord, step, clientId):
-    step[clientId] = "Connecting to CUNYPortal"
-
+def degreeClasses(userName, passWord):
     display = Display(visible=0, size=(800, 600))
     display.start()
     browser = webdriver.Chrome()
 
     browser.get('https://cunyportal.cuny.edu/cpr/authenticate/portal_login.jsp')
-
-    step[clientId] = "Logging into CUNYPortal"
 
     userid = browser.find_element_by_id("userid")
     password = browser.find_element_by_id("password")
@@ -176,26 +167,26 @@ def degreeClasses(userName, passWord, step, clientId):
     password.send_keys(passWord)
     browser.find_element_by_name("image").click()
 
-    step[clientId] = "Accessing DegreeWorks"
-
     try:
         browser.get("https://degreeworks.cuny.edu/cuny_redirector.cgi")
-        browser.switch_to_frame('frBody')
-        try:
-            step[clientId] = "Loading your Degree Audit"
-            element = WebDriverWait(browser, 60).until(
-                EC.presence_of_element_located((By.CLASS_NAME, 'SchoolName'))
-            )
-        except:
-            browser.quit()
-            return {'error': 'could not load DegreeWorks'}
     except:
         browser.quit()
-        return {'error': 'invalid params'}
+        return {'error': 'Could not load Degreeworks'}
+    try:
+        browser.switch_to_frame('frBody')
+    except:
+        browser.quit()
+        return {'error': 'Could not switch to course info frame'}
+    try:
+        element = WebDriverWait(browser, 60).until(
+            EC.presence_of_element_located((By.CLASS_NAME, 'SchoolName'))
+        )
+    except:
+        browser.quit()
+        return {'error': 'Could not find school'}
 
     html = browser.page_source
     soup = BeautifulSoup(html, 'html.parser')
-    step[clientId] = "Finding needed classes"
 
     schoolName = soup.find('span', class_="SchoolName").text
     needed = soup.find_all('tr', class_="bgLight0")
@@ -240,5 +231,4 @@ def degreeClasses(userName, passWord, step, clientId):
         previousReq = req
     reqsResponse = {'schoolName': schoolName, 'allRequirements': allReqs}
     browser.quit()
-    step[clientId] = "Done"
     return reqsResponse

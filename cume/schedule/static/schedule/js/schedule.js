@@ -253,7 +253,7 @@ function searchClasses(college, term, dept, session, contains, classNbr, callbac
   $('#searchResults').append('<div class="progress"><p id="step">Hi :)</p></div>')
   $('#searchResults').append('<div class="spinner spinnerSearch"><div class="double-bounce1"></div><div class="double-bounce2"></div></div>')
 
-  let apiURL = "http://localhost:8000/api/search"
+  let apiURL = "http://104.131.45.74/api/search"
   let payload = "?college=" + college + "&term=" + term + "&dept=" + dept + "&session=" + session + "&contains=" + contains + "&classNbr=" + classNbr + "&id=" + $('#id').val()
   let fullURL = apiURL + payload
   httpGetAsync(fullURL, function(data) {
@@ -318,7 +318,7 @@ function checkSearchHover() {
 }
 function checkSearchStep() {
   $.ajax({
-    url:'http://localhost:8000/api/poll_state/',
+    url:'http://104.131.45.74/api/poll_state/',
     type: 'POST',
     data: {
         csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
