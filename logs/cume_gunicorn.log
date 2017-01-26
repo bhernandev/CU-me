@@ -1,0 +1,44 @@
+[2017-01-04 00:11:15 -0500] [8556] [INFO] Starting gunicorn 19.6.0
+[2017-01-04 00:11:15 -0500] [8556] [INFO] Listening at: http://127.0.0.1:8000 (8556)
+[2017-01-04 00:11:15 -0500] [8556] [INFO] Using worker: gevent
+[2017-01-04 00:11:15 -0500] [8559] [INFO] Booting worker with pid: 8559
+[2017-01-04 00:11:15 -0500] [8560] [INFO] Booting worker with pid: 8560
+[2017-01-04 00:11:15 -0500] [8561] [INFO] Booting worker with pid: 8561
+[2017-01-04 00:11:51 -0500] [8556] [INFO] Handling signal: int
+[2017-01-04 05:11:51 +0000] [8561] [INFO] Worker exiting (pid: 8561)
+[2017-01-04 05:11:51 +0000] [8560] [INFO] Worker exiting (pid: 8560)
+[2017-01-04 05:11:51 +0000] [8559] [INFO] Worker exiting (pid: 8559)
+[2017-01-04 00:11:51 -0500] [8556] [INFO] Shutting down: Master
+[2017-01-04 00:12:10 -0500] [8653] [INFO] Starting gunicorn 19.6.0
+[2017-01-04 00:12:10 -0500] [8653] [INFO] Listening at: http://127.0.0.1:8000 (8653)
+[2017-01-04 00:12:10 -0500] [8653] [INFO] Using worker: gevent
+[2017-01-04 00:12:10 -0500] [8656] [INFO] Booting worker with pid: 8656
+[2017-01-04 00:12:10 -0500] [8657] [INFO] Booting worker with pid: 8657
+[2017-01-04 00:12:10 -0500] [8658] [INFO] Booting worker with pid: 8658
+[2017-01-04 00:13:22 -0500] [8653] [INFO] Handling signal: int
+[2017-01-04 05:13:22 +0000] [8656] [INFO] Worker exiting (pid: 8656)
+[2017-01-04 05:13:22 +0000] [8657] [INFO] Worker exiting (pid: 8657)
+[2017-01-04 05:13:22 +0000] [8658] [INFO] Worker exiting (pid: 8658)
+[2017-01-04 00:13:22 -0500] [8653] [INFO] Shutting down: Master
+[2017-01-04 00:26:50 -0500] [10349] [INFO] Starting gunicorn 19.6.0
+[2017-01-04 00:26:50 -0500] [10349] [INFO] Listening at: http://127.0.0.1:8000 (10349)
+[2017-01-04 00:26:50 -0500] [10349] [INFO] Using worker: gevent
+[2017-01-04 00:26:50 -0500] [10353] [INFO] Booting worker with pid: 10353
+[2017-01-04 00:26:50 -0500] [10354] [INFO] Booting worker with pid: 10354
+[2017-01-04 00:26:50 -0500] [10355] [INFO] Booting worker with pid: 10355
+[2017-01-04 00:28:31 -0500] [10349] [INFO] Handling signal: int
+[2017-01-04 05:28:31 +0000] [10353] [INFO] Worker exiting (pid: 10353)
+[2017-01-04 05:28:31 +0000] [10355] [INFO] Worker exiting (pid: 10355)
+[2017-01-04 05:28:31 +0000] [10354] [INFO] Worker exiting (pid: 10354)
+[2017-01-04 00:28:31 -0500] [10349] [INFO] Shutting down: Master
+[2017-01-04 00:28:33 -0500] [10576] [INFO] Starting gunicorn 19.6.0
+[2017-01-04 00:28:33 -0500] [10576] [INFO] Listening at: http://127.0.0.1:8000 (10576)
+[2017-01-04 00:28:33 -0500] [10576] [INFO] Using worker: gevent
+[2017-01-04 00:28:33 -0500] [10579] [INFO] Booting worker with pid: 10579
+[2017-01-04 00:28:33 -0500] [10580] [INFO] Booting worker with pid: 10580
+[2017-01-04 00:28:33 -0500] [10581] [INFO] Booting worker with pid: 10581
+[2017-01-04 00:29:23 -0500] [10576] [INFO] Handling signal: int
+[2017-01-04 05:29:23 +0000] [10580] [INFO] Worker exiting (pid: 10580)
+[2017-01-04 05:29:23 +0000] [10581] [INFO] Worker exiting (pid: 10581)
+[2017-01-04 05:29:23 +0000] [10579] [INFO] Worker exiting (pid: 10579)
+[2017-01-04 00:29:24 -0500] [10576] [INFO] Shutting down: Master
