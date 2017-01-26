@@ -16,7 +16,7 @@ import re, operator
 from django.conf import settings
 import os, sys
 sys.path.append(settings.PROJECT_ROOT_DIR)
-from api.apiRequests import degreeClasses
+from api.tasks import degreeClasses
 
 def index(request):
     if request.method == 'GET':
@@ -25,7 +25,7 @@ def index(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        neededClasses = degreeClasses(username, password)
+        neededClasses = degreeClasses.delay(username, password)
         if 'error' not in neededClasses:
             request.session['degreeData'] = neededClasses
             user = authenticate(username=username, password=password)
@@ -74,3 +74,19 @@ def class_delete(request):
 
     result = {'status': status}
     return JsonResponse(result)
+
+def poll_state(request):
+    """ A view to report the progress to the user """
+    data = 'Fail'
+    if request.is_ajax():
+        if 'task_id' in request.POST.keys() and request.POST['task_id']:
+            task_id = request.POST['task_id']
+            task = AsyncResult(task_id)
+            data = task.result or task.state
+        else:
+            data = 'No task_id in the request'
+    else:
+        data = 'This is not an ajax request'
+
+    json_data = json.dumps(data)
+    return JsonResponse(json_data, content_type='application/json')

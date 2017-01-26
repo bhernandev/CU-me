@@ -13,6 +13,8 @@ from bs4 import BeautifulSoup
 import re
 from operator import itemgetter
 
+from celery.decorators import task
+
 def classSearch(college, term, dept, number, selector, session):
     display = Display(visible=0, size=(800, 600))
     display.start()
@@ -154,7 +156,10 @@ def getGrade(item):
         key = '0'
     return key
 
+@shared_task
 def degreeClasses(userName, passWord):
+    current_task.update_state(state='PROGRESS', meta={'step': 'Logging you in!'})
+
     display = Display(visible=0, size=(800, 600))
     display.start()
     browser = webdriver.Chrome()

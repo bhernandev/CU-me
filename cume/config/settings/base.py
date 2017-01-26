@@ -1,3 +1,4 @@
+from __future__ import absolute_import, unicode_literals
 import os
 import json
 # Normally you should not import ANYTHING from Django directly
@@ -23,8 +24,15 @@ PROJECT_ROOT_DIR = os.path.dirname(os.path.join('..', BASE_DIR))
 
 SECRET_KEY = get_secret("SECRET_KEY")
 
-# Application definition
+# CELERY STUFF
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
+
+# Application definition
 INSTALLED_APPS = [
     'schedule.apps.ScheduleConfig',
     'api.apps.ApiConfig',
