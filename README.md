@@ -9,7 +9,7 @@ CU-me aims to fix these issues :) Maybe not all of them, but, hopefully, it make
 * Integration with DegreeWorks: the left tab shows you a glorious list of classes you still need to complete to graduate (based on your DegreeAudit). Classes with full codes like CSCI 12700 are clickable and it will automatically search the course catalog for that course for the most recent term.
 * Integration with CUNYFirst search: completely bypassing the CUNYFirst login, you can search for any class at any CUNY campus.
 * Integration with RateMyProfessors: each class returned from a search has an overall rating for a professor and the professor's hardness rating (this only works for professors that are in the RateMyProfessors database, of course. Sorry, 'Staff' has no ratings).
-* A slow, but full API for CUNYFirst and DegreeWorks (returns JSON for search and required classes)
+* A slow, but full API for CUNYFirst class searching (returns JSON for search)
 
 The schedule you create gets saved to a PostgreSQL database, so all edits to your schedule are secure.
 You can download the schedule as an image by clicking on the small download button.
