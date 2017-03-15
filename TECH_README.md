@@ -1,4 +1,6 @@
 ### CU-me is a Django server with an NGINX server on top.
+For the list of dependencies and libraries I use, check [requirements.txt](https://github.com/bhernandev/CUNYsecond/blob/master/requirements.txt).
+
 Being Django most of my code is written in Python.
 
 #### Logging in
