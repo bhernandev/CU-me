@@ -4,10 +4,9 @@ Being Django most of my code is written in Python.
 #### Logging in
 Every time a user logs in, a request is sent to the server, which opens up a Selenium browser window that naviagates to CUNYPortal, inputs the user's login info, goes to DegreeAudit from there, scrapes all of the still required classes and finally returns the schedule page with JSON of the required classes.
 I do save the person's CUNYPortal username and hashed password in the PostgreSQL database to save added classes.
-* `Selenium` is a robobrowser library.*
+*`Selenium` is a robobrowser library.*
 I needed `Selenium` because after trying to work with CUNY sites through Requests and other libraries, none of them stored the necessary cookie and session data for CUNY to return proper content. Selenium actually imitates a real browser, so it actually logs in and everything works.
 I use `PhantomJS` as Selenium's webdriver. It is a headless browser, incredibly lightweight and fast compared to Chrome or Firefox.
----
 #### Searching
 Searching works basically the same way as logging in. When a user submits the search form, the page sends and AJAX request to the server. The server then opens a new Selenium browser and goes to the guest CUNYFirst search page, fills the search form with the user input, scrapes the results, for each professor tries to get his or her RateMyProfessors (I'll call it RMP) ratings, and then returns a JSON response.
 
