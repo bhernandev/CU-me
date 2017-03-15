@@ -32,6 +32,7 @@ $(document).ready(function() {
   $('#searchHidden').height($('#searchHidden').children('img').height());
   $('header').height($('#logo img').height());
   $('#searchHidden').hide()
+  $('#degreeContent').height($('#degree').height() - $('#degreeCollapse').height())
   let degreeOpen = true
   let searchOpen = true
 
@@ -171,14 +172,20 @@ $(document).ready(function() {
     let college = $('select[name=collegeSelect]').val()
     let term = $('select[name=termSelect]').val()
     let dept = $('select[name=courseSelect]').val()
-    let session = $('select[name=sessionSelect]').val()
+
+    let courseNbr = $('#numberInput').val()
     let contains = $('select[name=containsSelect]').val()
-    let classNbr = $('#numberInput').val()
-    searchClasses(college, term, dept, session, contains, classNbr, function() {
+
+    let session = $('select[name=sessionSelect]').val()
+    let classNbr = $('#classNumberInput').val()
+    let courseCareer = $('select[name=careerSelect]').val()
+    let reqdes = $('select[name=reqDesignationSelect]').val()
+    let instructorName = $('#instructorInput').val()
+    let instructorContains = $('select[name=instructorContainsSelect]').val()
+
+    searchClasses(college, term, dept, session, contains, courseNbr, classNbr, courseCareer, reqdes, instructorName, instructorContains, function() {
       searching = false
-      clearInterval(searchStepChecker)
     })
-    let searchStepChecker = setInterval(checkSearchStep, 800)
     return false
   })
 
@@ -206,14 +213,12 @@ $(document).ready(function() {
     let linkString = $(this).text()
     linkList = linkString.split(' ')
     let dept = linkList[0]
-    let classNbr = linkList[1]
+    let courseNbr = linkList[1]
     let contains = 'E'
     let session = ''
-    searchClasses(college, term, dept, session, contains, classNbr, function() {
+    searchClasses(college, term, dept, session, contains, courseNbr, function() {
       searching = false
-      clearInterval(searchStepChecker)
     })
-    let searchStepChecker = setInterval(checkSearchStep, 800)
     return false
   })
 
@@ -248,64 +253,71 @@ function httpGetAsync(theUrl, callback) {
   xmlHttp.send(null)
 }
 
-function searchClasses(college, term, dept, session, contains, classNbr, callback) {
+function searchClasses(college, term, dept, session, contains, courseNbr, classNbr, courseCareer, reqdes, instructorName, instructorContains, callback) {
   $('#searchResults').empty()
-  $('#searchResults').append('<div class="progress"><p id="step">Hi :)</p></div>')
+  $('#searchResults').append('<div class="progress"><p id="step">Searching for classes</p></div>')
   $('#searchResults').append('<div class="spinner spinnerSearch"><div class="double-bounce1"></div><div class="double-bounce2"></div></div>')
 
-  let apiURL = "http://localhost:8000/api/search"
-  let payload = "?college=" + college + "&term=" + term + "&dept=" + dept + "&session=" + session + "&contains=" + contains + "&classNbr=" + classNbr + "&id=" + $('#id').val()
+  let apiURL = "https://cufor.me/api/search/"
+  let payload = "?college=" + college + "&term=" + term + "&dept=" + dept + "&session=" + session + "&contains=" + contains + "&courseNbr=" + courseNbr + "&classNbr=" + classNbr + "&courseCareer=" + courseCareer + "&reqdes=" + reqdes + "&instructor=" + instructorName + "&instrContains=" + instructorContains  
   let fullURL = apiURL + payload
-  httpGetAsync(fullURL, function(data) {
-    let json = JSON.parse(data)
-    if (!json.hasOwnProperty('error')) {
-      let courseLength = json.courses.length
+  $.ajax({
+    url: fullURL,
+    type: 'GET',
+    data: {
+        csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
+    },
+    success: function(data) {
+      let json = data
+      if (!json.hasOwnProperty('error')) {
+        let courseLength = json.courses.length
 
-      $('#searchResults').empty()
-      let resultNum = 0
-      for (let i = 0; i < courseLength; i++) {
-        let course = json.courses[i]
-        let courseName = course.courseName
-        let sectionLength = course.sections.length
-        $('#searchResults').append('<div class="courseResult"><hr><p><b>' + courseName + '</b></p></div>')
-        for (let j = 0; j < sectionLength; j++) {
-          let section = course.sections[j]
+        $('#searchResults').empty()
+        let resultNum = 0
+        for (let i = 0; i < courseLength; i++) {
+          let course = json.courses[i]
+          let courseName = course.courseName
+          let sectionLength = course.sections.length
+          $('#searchResults').append('<div class="courseResult"><hr><p><b>' + courseName + '</b></p></div>')
+          for (let j = 0; j < sectionLength; j++) {
+            let section = course.sections[j]
 
-          let times = section.times
-          let instructor = section.instructor
-          let grades = ""
-          if (!jQuery.isEmptyObject(section.instructorGrades))
-            grades = '<div class="grades"><img class="rmpImg" src="/static/schedule/img/rmpLong.png"><div class="gradeId"><p>Overall</p><p>Difficulty</p></div><div><p>' + section.instructorGrades.overall + "</p><p>" + section.instructorGrades.difficulty + "</p></div></div>"
-          let room = section.room
-          let dates = section.meetingDates
+            let times = section.times
+            let instructor = section.instructor
+            let grades = ""
+            if (!jQuery.isEmptyObject(section.instructorGrades))
+              grades = '<div class="grades"><img class="rmpImg" src="/static/schedule/img/rmpLong.png"><div class="gradeId"><p>Overall</p><p>Difficulty</p></div><div><p>' + section.instructorGrades.overall + "</p><p>" + section.instructorGrades.difficulty + "</p></div></div>"
+            let room = section.room
+            let dates = section.meetingDates
 
-          let newDiv = ""
-          if (grades != "")
-            newDiv = '<div class=result id="result' + resultNum + '"><p class="times">' + times + '</p>' + '<p class="instructor">' + instructor + '</p>' + grades + '<p class="room">' + room + '</p>' + '<p class="dates">' + dates + '</p>' + '<img class="add" src="/static/schedule/img/add.png" alt="Add Class"></div>'
-          else
-            newDiv = '<div class=result id="result' + resultNum + '"><p class="times">' + times + '</p>' + '<p class="instructor">' + instructor + '</p>' + '<p class="room">' + room + '</p>' + '<p class="dates">' + dates + '</p>' + '<img class="add" src="/static/schedule/img/add.png" alt="Add Class"></div>'
+            let newDiv = ""
+            if (grades != "")
+              newDiv = '<div class=result id="result' + resultNum + '"><p class="times">' + times + '</p>' + '<p class="instructor">' + instructor + '</p>' + grades + '<p class="room">' + room + '</p>' + '<p class="dates">' + dates + '</p>' + '<img class="add" src="/static/schedule/img/add.png" alt="Add Class"></div>'
+            else
+              newDiv = '<div class=result id="result' + resultNum + '"><p class="times">' + times + '</p>' + '<p class="instructor">' + instructor + '</p>' + '<p class="room">' + room + '</p>' + '<p class="dates">' + dates + '</p>' + '<img class="add" src="/static/schedule/img/add.png" alt="Add Class"></div>'
 
-          if (j != 0)
-            $('#searchResults').append('<hr class="smallLine">')
-          $('#searchResults').append(newDiv)
+            if (j != 0)
+              $('#searchResults').append('<hr class="smallLine">')
+            $('#searchResults').append(newDiv)
 
-          resultNum++
+            resultNum++
+          }
         }
       }
-    }
-    else {
-      $('#searchResults').empty()
-      if (json.error == "Not found") {
-        $('#searchResults').append('<p class="error"><b>No results found :(</b></p>')
-      }
       else {
-        $('#searchResults').append('<p class="error"><b>Could not connect to CUNYFirst.</b></p><p class="error"><b>(it may be down)</b></p>')
+        console.log(json.error)
+        $('#searchResults').empty()
+        if (json.error == "Not found") {
+          $('#searchResults').append('<p class="error"><b>No results found :(</b></p>')
+        }
+        else {
+          $('#searchResults').append('<p class="error"><b>Could not connect to CUNYFirst.</b></p><p class="error"><b>(it may be down)</b></p>')
+        }
       }
+      $('#searchForm').hide()
+      $('#searchHidden').show()
+      callback()
     }
-    $('#searchForm').hide()
-    $('#searchHidden').show()
-    $('#searchResults').height('100%')
-    callback()
   })
 }
 
@@ -315,18 +327,4 @@ function checkSearchHover() {
     $('#searchForm').hide('fast')
     $('#searchHidden').show('fast');
   }
-}
-function checkSearchStep() {
-  $.ajax({
-    url:'http://localhost:8000/api/poll_state/',
-    type: 'POST',
-    data: {
-        csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
-        id: $('#id').val(),
-    },
-    success: function(pollResult) {
-      step = pollResult.data
-      $('#step').html(step)
-    }
-  })
 }

@@ -4,13 +4,13 @@
 {% block style %}
 <link rel="stylesheet" type="text/css" href="{% static 'schedule/login.css' %}" />
 {% endblock %}
-{% block title %}CU-Me :){% endblock %}
+{% block title %}CU-me :){% endblock %}
 
 {% block content %}
   <main>
     <img id="guy" src="{% static 'schedule/img/guy.png' %}">
     <img id="gal" src="{% static 'schedule/img/gal.png' %}">
-    <h1>CU-<span id="me">Me</span></h1>
+    <h1>CU-<span id="me">me</span></h1>
     <div id="login">
       {% if messages %}<div id="errors">{% for message in messages %} {{ message }} {% endfor %}</div>{% endif %}
       <form id="loginForm" class="pure-form pure-form-aligned" action="{% url 'index' %}" method="post">

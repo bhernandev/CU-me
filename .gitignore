@@ -1,3 +1,6 @@
+*cume/schedule/migrations/
+*.1
+*.save
 *.pyc
 *~
 __pycache__
@@ -5,8 +8,10 @@ manage.py
 .DS_Store
 cume/api/deanPass.py
 cume/ghostdriver.log
+cume/schedule/ghostdriver.log
 cume/config/settings/secrets.json
 cume/staticfiles/*
+<<<<<<< HEAD
 cume/api/AuditDisclaimer.xml
 *.xsl
 *.save
@@ -16,3 +21,12 @@ cume/schedule/form.txt
 cume/schedule/ghostdriver.log
 *cume/schedule/migrations/
 cume/schedule/searchErrors.txt
+=======
+cume/launchserver
+cume/api/AuditDisclaimer.xml
+cume/api/CommonTemplates.xsl
+cume/api/DGW_Report.xsl
+cume/api/FormatDate.xsl
+cume/schedule/searchErrors.txt
+cume/schedule/form.txt
+>>>>>>> 5765b3411f84625293925f8b31d733a15a67ae93

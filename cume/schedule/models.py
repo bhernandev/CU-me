@@ -6,7 +6,7 @@ class Class(models.Model):
     name = models.CharField(max_length=100)
     times = models.CharField(max_length=100)
     instructor = models.CharField(max_length=100)
-    rating = models.CharField(max_length=25)
+    rating = models.CharField(max_length=50)
     room = models.CharField(max_length=100)
     dates = models.CharField(max_length=50)
 

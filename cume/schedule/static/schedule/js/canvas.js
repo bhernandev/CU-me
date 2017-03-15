@@ -300,8 +300,10 @@ $(document).ready(function() {
       while ($('#classOverlay-' + classCount + i + ' div').height() >= $('#classOverlay-' + classCount + i).height()) {
         if (parseInt($('#classOverlay-' + classCount + i + ' div').css('font-size')) > 10)
           $('#classOverlay-' + classCount + i + ' div').css('font-size', (parseInt($('#classOverlay-' + classCount + i + ' div').css('font-size')) - 1) + "px" )
-        else
+        else {
           $('#classOverlay-' + classCount + i).css('overflow', 'scroll')
+          break
+        }
       }
 
       let gradesArray = grades.split(',')
@@ -317,11 +319,13 @@ $(document).ready(function() {
           $('#classOverlayHover-' + classCount + i + ' section').css('font-size', (parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')) - 1) + 'px')
         // console.log('font size ' + parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')))
         // console.log('width ' + parseInt($('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width')))
-        if (parseInt($('#classOverlayHover-' + classCount + i + ' section').css('width')) > 33)
+        if (parseInt($('#classOverlayHover-' + classCount + i + ' section').css('width')) > 130)
           $('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width', (parseInt($('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width')) - 2) + 'px')
 
-        if (parseInt($('#classOverlayHover-' + classCount + i + ' section').css('width')) <= 33 && parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')) > 10)
+        if (parseInt($('#classOverlayHover-' + classCount + i + ' section').css('width')) <= 130 && parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')) <= 10) {
           $('#classOverlayHover-' + classCount + i).css('overflow', 'scroll')
+          break
+        }
         // console.log('inner height ' + $('#classOverlayHover-' + classCount + i + ' section').height())
         // console.log('container height ' + $('#classOverlayHover-' + classCount + i).height())
       }
@@ -377,7 +381,7 @@ $(document).ready(function() {
 
   function addClassToDB(newClassName, newClassTimes, newClassInstructor, newClassRating, newClassRoom, newClassDates) {
     $.ajax({
-      url:'http://localhost:8000/class_add/',
+      url:'http://104.131.47.24/class_add/',
       type: 'POST',
       data: {
           csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
@@ -395,7 +399,7 @@ $(document).ready(function() {
   }
   function deleteClassFromDB(removeClassName) {
     $.ajax({
-      url:'http://localhost:8000/class_delete/',
+      url:'http://104.131.47.24/class_delete/',
       type: 'POST',
       data: {
           csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),

@@ -1,24 +1,28 @@
 from django.http import JsonResponse
-from . import apiRequests
+from .apiRequests import classSearch, degreeClasses
 
-searchSteps = {}
+from django.conf import settings
+import os, sys
+sys.path.append(settings.PROJECT_ROOT_DIR)
 
 def search(request):
-    global searchSteps
-    clientId = request.GET.get('id', '')
-    searchSteps[clientId] = ""
-
     #required
     school = request.GET.get('college', '')
     term = request.GET.get('term', '')
     dept = request.GET.get('dept', '')
 
     #optional
-    classNbr = request.GET.get('classNbr', '')
+    courseNbr = request.GET.get('courseNbr', '')
     contains = request.GET.get('contains', '')
     session = request.GET.get('session', '')
 
-    result = apiRequests.classSearch(school, term, dept, classNbr, contains, session, searchSteps, clientId)
+    classNbr = request.GET.get('classNbr', '')
+    courseCareer = request.GET.get('courseCareer', '')
+    reqdes = request.GET.get('reqdes', '')
+    instructor = request.GET.get('instructor', '')
+    instructorContains = request.GET.get('instrContains', '')
+    
+    result = classSearch(school, term, dept, courseNbr, contains, session, classNbr, courseCareer, reqdes, instructor, instructorContains)
 
     return JsonResponse(result)
 
@@ -27,19 +31,6 @@ def degree(request):
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
 
-        result = apiRequests.degreeClasses(username, password)
+        result = degreeClasses(username, password)
 
         return JsonResponse(result)
-
-def poll_state(request):
-    """ A view to report the progress to the user """
-    global searchSteps
-
-    data = 'Fail'
-    if request.is_ajax() and request.method == 'POST':
-        data = searchSteps[request.POST.get('id')]
-    else:
-        data = 'This is not an ajax request'
-
-    result = {'data': data}
-    return JsonResponse(result)
