@@ -1,6 +1,6 @@
 $(document).ready(function() {
   formJson = jQuery.parseJSON($('#form').val())
-  collegesJson = formJson.colleges
+  window.collegesJson = formJson.colleges
 
   $('select[name="collegeSelect"]').change(function() {
     let collegeCode = $('select[name="collegeSelect"] option:selected').val()

@@ -229,7 +229,7 @@ td#first {
 .reqContainer {
   text-align: center;
 }
-#collegeName {
+#collegeName, #degreeTerm {
   display: none;
 }
 .smallLine {

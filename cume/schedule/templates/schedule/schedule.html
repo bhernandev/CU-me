@@ -86,6 +86,7 @@
       <div id="degreeCollapse" class="collapse"> Classes left to complete </div>
       <div id="degreeContent">
         <p id="collegeName">{{ request.session.degreeData.schoolName }}</p>
+        <p id="degreeTerm"></p>
         {% with firstReq=request.session.degreeData.allRequirements.0 %}
           {% for req in request.session.degreeData.allRequirements %}
             {% if req != firstReq %}
@@ -250,8 +251,8 @@
   <script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.13/jquery.popupoverlay.js"></script>
   <input type="hidden" id="form" name="form" value="{{ form }}" readonly>
   <script type="text/javascript" src="{% static 'schedule/js/canvas.js' %}"></script>
-  <script type="text/javascript" src="{% static 'schedule/js/schedule.js' %}"></script>
   <script type="text/javascript" src="{% static 'schedule/js/form.js' %}"></script>
+  <script type="text/javascript" src="{% static 'schedule/js/schedule.js' %}"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       {% if classes %}

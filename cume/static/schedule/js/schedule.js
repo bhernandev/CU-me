@@ -26,6 +26,12 @@ let college_dictionary = {
 let searchFormShown = false;
 let searching = false
 $(document).ready(function() {
+  for (let i = 0; i < collegesJson.length; i++) {
+    if (collegesJson[i].code == college_dictionary[$('#collegeName').text()]) {
+      $('#degreeTerm').text(collegesJson[i].terms[collegesJson[i].terms.length - 1].code)
+    }
+  }
+
   $('.reqContainer').each(function(i) {
     $(this).hide()
   })
@@ -209,7 +215,7 @@ $(document).ready(function() {
       return false
     searching = true
     let college = college_dictionary[$('#collegeName').text()]
-    let term = '1172'
+    let term = $('#degreeTerm').text()
     let linkString = $(this).text()
     linkList = linkString.split(' ')
     let dept = linkList[0]
