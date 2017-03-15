@@ -20,4 +20,4 @@ You can download the schedule as an image by clicking on the small download butt
 
 Now. I managed to bypass CUNYFirst search, but I had to sacrifice one crucial thing to make it work. When you add a class to the schedule, you don't get the list of labs, recitation, or discussions if it is a combined section class. This information can only be accessed by logging in and selecting the class while logged in. I mean, as far as I know. Anyway, this is a *BIG* problem. Hopefully, I can figure something out.
 
-If you want to read how I did it, this is the [tech readme]().
+If you want to read how I did it, this is the [tech readme](https://github.com/bhernandev/CUNYsecond/blob/master/TECH_README.md).
