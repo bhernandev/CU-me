@@ -5,6 +5,7 @@ Being Django most of my code is written in Python.
 
 #### Logging in
 *Implemented in [apiRequests.py](https://github.com/bhernandev/CUNYsecond/blob/master/cume/api/apiRequests.py)*
+
 Every time a user logs in, a request is sent to the server, which opens up a Selenium browser window that naviagates to CUNYPortal, inputs the user's login info, goes to DegreeAudit from there, scrapes all of the still required classes and finally returns the schedule page with JSON of the required classes.
 I do save the person's CUNYPortal username and hashed password in the PostgreSQL database to save added classes.
 `Selenium` is a robobrowser library. I needed Selenium because after trying to work with CUNY sites through Requests and other libraries, none of them stored the necessary cookie and session data for CUNY to return proper content. Selenium actually imitates a real browser, so it actually logs in and everything works.
