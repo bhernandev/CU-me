@@ -57,7 +57,7 @@ $(document).ready(function() {
     }
 
     let classObject = $.grep(addedClasses, function(item){ return item.id === Number(idSplit[1][0]); })
-    deleteClassFromDB(classObject[0].course)
+    deleteClassFromDB(classObject[0].course, classObject[0].times)
     addedClasses.splice(addedClasses.indexOf(classObject[0]), 1)
     classCount--
   })
@@ -124,7 +124,6 @@ $(document).ready(function() {
       dayContext.fillStyle = '#44474c'
       dayContext.fillText(days[i], timeWordEnd + i*widthOfSchedule/(numberOfLines - 1) + (widthOfSchedule/(numberOfLines - 1) - dayContext.measureText(days[i]).width)/2 , height/40)
     }
-    console.log('added day lines')
   }
 
   function addTimes(start, end) {
@@ -166,7 +165,6 @@ $(document).ready(function() {
       //context.dashedLine(20,150,170,10,[30,10,0,10])
     }
     heightOfScheduleForClasses = ((numberOfLines-1)*heightOfSchedule/numberOfLines)
-    console.log('added time lines')
   }
 
   window.addClass = function (times, course, instructor, grades, room, dates, redrawing, fromDB) {
@@ -300,8 +298,10 @@ $(document).ready(function() {
       while ($('#classOverlay-' + classCount + i + ' div').height() >= $('#classOverlay-' + classCount + i).height()) {
         if (parseInt($('#classOverlay-' + classCount + i + ' div').css('font-size')) > 10)
           $('#classOverlay-' + classCount + i + ' div').css('font-size', (parseInt($('#classOverlay-' + classCount + i + ' div').css('font-size')) - 1) + "px" )
-        else
-          $('#classOverlay-' + classCount + i).css('overflow', 'scroll')
+        else {
+          $('#classOverlay-' + classCount + i).css('overflow-y', 'scroll')
+          break
+        }
       }
 
       let gradesArray = grades.split(',')
@@ -317,11 +317,13 @@ $(document).ready(function() {
           $('#classOverlayHover-' + classCount + i + ' section').css('font-size', (parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')) - 1) + 'px')
         // console.log('font size ' + parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')))
         // console.log('width ' + parseInt($('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width')))
-        if (parseInt($('#classOverlayHover-' + classCount + i + ' section').css('width')) > 33)
+        if (parseInt($('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width')) > 25)
           $('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width', (parseInt($('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width')) - 2) + 'px')
 
-        if (parseInt($('#classOverlayHover-' + classCount + i + ' section').css('width')) <= 33 && parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')) > 10)
-          $('#classOverlayHover-' + classCount + i).css('overflow', 'scroll')
+        if (parseInt($('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width')) <= 25 && parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')) <= 10) {
+          $('#classOverlayHover-' + classCount + i).css('overflow-y', 'scroll')
+          break
+        }
         // console.log('inner height ' + $('#classOverlayHover-' + classCount + i + ' section').height())
         // console.log('container height ' + $('#classOverlayHover-' + classCount + i).height())
       }
@@ -377,7 +379,7 @@ $(document).ready(function() {
 
   function addClassToDB(newClassName, newClassTimes, newClassInstructor, newClassRating, newClassRoom, newClassDates) {
     $.ajax({
-      url:'http://localhost:8000/class_add/',
+      url:'https://cufor.me/class_add/',
       type: 'POST',
       data: {
           csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
@@ -393,13 +395,14 @@ $(document).ready(function() {
       }
     })
   }
-  function deleteClassFromDB(removeClassName) {
+  function deleteClassFromDB(removeClassName, removeClassTime) {
     $.ajax({
-      url:'http://localhost:8000/class_delete/',
+      url:'https://cufor.me/class_delete/',
       type: 'POST',
       data: {
           csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
-          name: removeClassName
+          name: removeClassName,
+          times: removeClassTime
       },
       success: function(deleteResult) {
         let status = deleteResult.status

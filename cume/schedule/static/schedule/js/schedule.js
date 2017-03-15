@@ -176,9 +176,7 @@ $(document).ready(function() {
     let classNbr = $('#numberInput').val()
     searchClasses(college, term, dept, session, contains, classNbr, function() {
       searching = false
-      clearInterval(searchStepChecker)
     })
-    let searchStepChecker = setInterval(checkSearchStep, 800)
     return false
   })
 
@@ -211,9 +209,7 @@ $(document).ready(function() {
     let session = ''
     searchClasses(college, term, dept, session, contains, classNbr, function() {
       searching = false
-      clearInterval(searchStepChecker)
     })
-    let searchStepChecker = setInterval(checkSearchStep, 800)
     return false
   })
 
@@ -250,11 +246,11 @@ function httpGetAsync(theUrl, callback) {
 
 function searchClasses(college, term, dept, session, contains, classNbr, callback) {
   $('#searchResults').empty()
-  $('#searchResults').append('<div class="progress"><p id="step">Hi :)</p></div>')
+  $('#searchResults').append('<div class="progress"><p id="step">Searching for classes</p></div>')
   $('#searchResults').append('<div class="spinner spinnerSearch"><div class="double-bounce1"></div><div class="double-bounce2"></div></div>')
 
-  let apiURL = "http://localhost:8000/api/search"
-  let payload = "?college=" + college + "&term=" + term + "&dept=" + dept + "&session=" + session + "&contains=" + contains + "&classNbr=" + classNbr + "&id=" + $('#id').val()
+  let apiURL = "http://104.131.47.24/api/search"
+  let payload = "?college=" + college + "&term=" + term + "&dept=" + dept + "&session=" + session + "&contains=" + contains + "&classNbr=" + classNbr
   let fullURL = apiURL + payload
   httpGetAsync(fullURL, function(data) {
     let json = JSON.parse(data)
@@ -294,6 +290,7 @@ function searchClasses(college, term, dept, session, contains, classNbr, callbac
       }
     }
     else {
+      console.log(json.error)
       $('#searchResults').empty()
       if (json.error == "Not found") {
         $('#searchResults').append('<p class="error"><b>No results found :(</b></p>')
@@ -315,18 +312,4 @@ function checkSearchHover() {
     $('#searchForm').hide('fast')
     $('#searchHidden').show('fast');
   }
-}
-function checkSearchStep() {
-  $.ajax({
-    url:'http://localhost:8000/api/poll_state/',
-    type: 'POST',
-    data: {
-        csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),
-        id: $('#id').val(),
-    },
-    success: function(pollResult) {
-      step = pollResult.data
-      $('#step').html(step)
-    }
-  })
 }

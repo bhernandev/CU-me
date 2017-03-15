@@ -19,6 +19,7 @@ def get_secret(setting, secrets=secrets):
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+PROJECT_ROOT_DIR = os.path.dirname(os.path.join('..', BASE_DIR))
 
 SECRET_KEY = get_secret("SECRET_KEY")
 
@@ -119,3 +120,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_URL = '/'
+
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
