@@ -4,11 +4,21 @@
 {% block style %}
 <link rel="stylesheet" type="text/css" href="{% static 'schedule/schedule.css' %}" />
 {% endblock %}
-{% block title %}CU-Me :) - Schedule{% endblock %}
+{% block title %}CU-me :) - Schedule{% endblock %}
 
 {% block content %}
+  <div id="fb-root"></div>
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
   <header>
-    <div id=logo><img src="{% static 'schedule/img/cumeLogo.png' %}" alt="logo"></div>
+    <div id=logo><img src="{% static 'schedule/img/cumelogo.png' %}" alt="logo"></div>
     <nav>
       <ul>
         <li class="help_open"><b>Help</b></li>
@@ -21,8 +31,8 @@
     <input type="hidden" id="newUser" name="newUser" value="{{ request.session.newUser }}" readonly>
     <input type="hidden" id="id" name="id" value="{{ request.session.id }}" readonly>
     <div class="popup" id="tut1">
-      <p>This is CU-Me, a little tool that solves big problems with CUNY class schedule making.</p>
-      <p>Click anywhere outside this text to quickly get started with CU-Me :)</p>
+      <p>This is CU-me, a little tool that solves big problems with CUNY class schedule making.</p>
+      <p>Click anywhere outside this text to quickly get started with CU-me :)</p>
     </div>
     <div class="popup scheduleTooltip" id="tut2">
       <p>This panel shows all the courses you need to take to graduate.</p>
@@ -40,21 +50,27 @@
       <p>To save the schedule as an image, just press the download button next to the schedule title.</p>
     </div>
     <div class="popup" id="tut5">
-      <p>That's it! Enjoy CU-Me, and be sure to check the Help section for additional VERY IMPORTANT information!</p>
+      <p>That's it! Enjoy CU-me, and be sure to check the Help section for additional VERY IMPORTANT information!</p>
     </div>
     <div class="popup" id="about">
-      <p>CU-Me is a work of <font color="#dca2ef">l<font color="#a2bbef">o</font>ve</font> designed by me, <a href="http://mikmaks.co.nf/" alt="portfolioSite">Maximilian Ioffe</a>.</p>
-      <p>It is still in its Alpha stage, so there may be bugs. Please <a href="mailto:maxioffe@gmail.com">send me</a> any requests, suggestions, and issues, so I can fix them!</p>
+      <p>CU-me is a work of <font color="#dca2ef">l<font color="#a2bbef">o</font>ve</font> designed by me, <a href="http://mikmaks.co.nf/" alt="portfolioSite">Maximilian Ioffe</a>.</p>
+      <p>It is still in its Alpha stage, so there may be bugs. Please <a href="mailto:maxi@cufor.me">send me</a> any requests, suggestions, and issues, so I can fix them!</p>
       <p>It is a work-in-progress I am actively developing, so hopefully it'll only grow from here.</p>
       <p>&nbsp;</p>
-      <p>Please share this site</p>
+      <p>Please share CU-me (it helps so much)</p>
       <p>&nbsp;</p>
+      <div id="social">
+        <div id="socialContainer">
+          <div id="fbButton" class="fb-like" style="text-align: center;" data-href="http://cufor.me/" data-layout="button_count" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
+          <a id="twitterButton" href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-text="CU-me makes class scheduling easy." data-url="http://cufor.me" data-hashtags="cu-me, cuny, scheduling, classes" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>      
+        </div>
+      </div>
       <p>&nbsp;</p>
-      <p>Check the project out on <a href="https://github.com/mikmaks97" alt="github">Github</a></p>
+      <p>Check the project out on <a href="https://github.com/bhernandez-cs/CUNYsecond" alt="github">Github</a></p>
     </div>
     <div class="popup" id="help">
       <p>You can see what courses you still need to take in the left panel.</p>
-      <p>You can click on any class, and Cu-Me will automatically search for sections of that course in the right panel.</p>
+      <p>You can click on any class, and Cu-me will automatically search for sections of that course in the right panel.</p>
       <p>It can sometimes take quite a bit of time because it is fetching live data from CUNYFirst, and we all know how slow CUNYFirst can be.</p>
       <p>So relax and soon you'll have a list of classes for your search query. Sections include RatemyProfessors ratings for every professor on RatemyProfessors.</p>
       <p>Lastly, just click on the plus button below any section and it's added to your schedule! Next time you log in, your newly created schedule will be there to greet you.</p>
@@ -117,30 +133,37 @@
           <fieldset>
             <label>School</label>
             <select name="collegeSelect" form="searchForm">
-              <option value="HTR01">Hunter College</option>
+              <option value=""></option>
               <option value="BAR01">Baruch College</option>
+              <option value="BMC01">Borough of Manhattan CC</option>
+              <option value="BCC01">Bronx Community College</option>
+              <option value="BKL01">Brooklyn College</option>
+              <option value="LAW01">CUNY School of Law</option>
+              <option value="MED01">CUNY School of Medicine</option>
+              <option value="SPH01">CUNY School of Public Health</option>
               <option value="CTY01">City College</option>
+              <option value="CSI01">College of Staten Island</option>
+              <option value="NCC01">Guttman Community College</option>
+              <option value="HOS01">Hostos Community College</option>
+              <option value="HTR01">Hunter College</option>
+              <option value="JJC01">John Jay College</option>
+              <option value="KCC01">Kingsborough CC</option>
+              <option value="LAG01">LaGuardia Community College</option>
+              <option value="LEH01">Lehman College</option>
+              <option value="MEC01">Medgar Evers College</option>
+              <option value="NYT01">NYC College of Technology</option>
+              <option value="QNS01">Queens College</option>
+              <option value="QCC01">Queensborough CC</option>
+              <option value="SPS01">School of Professional Studies</option>
+              <option value="GRD01">The Graduate Center</option>
+              <option value="YRK01">York College</option>
             </select>
             <label>Term</label>
-            <select name="termSelect" form="searchForm">
-              <option value="1172">Spring 2017</option>
-              <option value="BAR01">Fall 2016</option>
-            </select>
-            <label>Course</label>
-            <select name="courseSelect" form="searchForm">
-              <option value="CSCI">Computer Science</option>
-              <option value="ASTRO">Astronomy</option>
-              <option value="GTECH">Geography Technology</option>
-              <option value="DAN">Dance</option>
-              <option value="STAT">Statistics</option>
-            </select>
+            <select name="termSelect" form="searchForm"></select>
+            <label>Department</label>
+            <select name="courseSelect" form="searchForm"></select>
           </fieldset>
           <fieldset>
-            <label>Session</label>
-            <select name="sessionSelect" form="searchForm">
-              <option value=""></option>
-              <option value="WIN">Winter</option>
-            </select>
             <label>Course Number</label>
             <input name="numberInput" id="numberInput"></input>
             <label>Contains?</label>
@@ -148,8 +171,75 @@
               <option value=""></option>
               <option value="C">contains</option>
               <option value="E">is exactly</option>
+              <option value="G">greater than or equal to</option>
+              <option value="T">less than or equal to</option>
             </select>
           </fieldset>
+          <fieldset>
+            <label>Class Number</label>
+            <input name="classNumberInput" id="classNumberInput"></input>
+            <label>Session</label>
+            <select name="sessionSelect" form="searchForm">
+              <option value=""></option>
+              <option value="WIN">Winter</option>
+              <option value="8W1">Eight Week - First</option>
+              <option value="8W2">Eight Week - Second</option>
+              <option value="11W">Eleven Week</option>
+              <option value="5W1">Five Week - First</option>
+              <option value="5W2">Five Week - Second</option>
+              <option value="5W3">Five Week - Third</option>
+              <option value="4W1">Four Week - First</option>
+              <option value="4W2">Four Week - Second</option>
+              <option value="4W3">Four Week - Third</option>
+              <option value="LT3">Less Than 3 Week</option>
+              <option value="MBS">Medical, Basic Science</option>
+              <option value="MCS">Medical, Clinical Science</option>
+              <option value="9W1">Nine Week - First</option>
+              <option value="9W2">Nine Week - Second</option>
+              <option value="1">Regular Academic Session</option>
+              <option value="2">Second Session</option>
+              <option value="7W1">Seven Week - First</option>
+              <option value="7W2">Seven Week - Second</option>
+              <option value="6W1">Six Week - First</option>
+              <option value="6W2">Six Week - Second</option>
+              <option value="10W">Ten Week</option>
+              <option value="3W1">Three Week - First</option>
+              <option value="3W2">Three Week - Second</option>
+              <option value="3W3">Three Week - Third</option>
+              <option value="12W">Twelve Week</option>
+            </select>
+            <label>Course Career</label>
+            <select name="careerSelect" form="searchForm"></select>
+            <label>Requirement Designation</label>
+            <select name="reqDesignationSelect" form="searchForm">
+              <option value=""></option>
+              <option value="FCE">Flexible Core - Creative Expression</option>
+              <option value="FIS">Flexible Core - Individual and Society</option>
+              <option value="FSW">Flexible Core - Scientific World</option>
+              <option value="FUS">Flexible Core - US Experience in its Diversity</option>
+              <option value="FWG">Flexible Core - World Cultures and Global Issues</option>
+              <option value="REC">Required Core - English Composition</option>
+              <option value="RLP">Required Core - Life and Physical Sciences</option>
+              <option value="RMQ">Required Core - Mathematical and Quantitative Reasoning</option>
+            </select>
+          </fieldset>
+          <fieldset>
+            <label id="instructorLabel">Instructor Name</label>
+            <input name="instructorInput" id="instructorInput"></input>
+            <label id="instructoContainsLabel">Contains?</label>
+            <select name="instructorContainsSelect" form="searchForm">
+              <option value=""></option>
+              <option value="B">begins with</option>
+              <option value="C">contains</option>
+              <option value="E">is exactly</option>
+            </select>
+          </fieldset>
+          <!-- <fieldset>
+            <label>Campus</label>
+            <select name="campusSelect" form="searchForm"></select>
+            <label>Location</label>
+            <select name="locationSelect" form="searchForm"></select>
+          </fieldset> -->
           <div class="buttonContainer"><button class="pure-button button-forms" type="submit">Search</button></div>
         </form>
         <div id="searchResults"></div>
@@ -158,8 +248,10 @@
   </main>
   <footer></footer>
   <script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.13/jquery.popupoverlay.js"></script>
+  <input type="hidden" id="form" name="form" value="{{ form }}" readonly>
   <script type="text/javascript" src="{% static 'schedule/js/canvas.js' %}"></script>
   <script type="text/javascript" src="{% static 'schedule/js/schedule.js' %}"></script>
+  <script type="text/javascript" src="{% static 'schedule/js/form.js' %}"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       {% if classes %}

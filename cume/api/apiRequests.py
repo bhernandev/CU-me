@@ -2,9 +2,14 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+from time import time
+import lxml.etree as ET
+from io import StringIO
 
 import requests
 from bs4 import BeautifulSoup
@@ -12,17 +17,14 @@ from bs4 import BeautifulSoup
 import re
 from operator import itemgetter
 
-#import deanPass
+def classSearch(college, term, dept, number, selector, session, classNbr, courseCareer, reqdes, instructorName, instructorSelector):
+    browser = webdriver.PhantomJS()
+    browser.maximize_window()
 
-def classSearch(college, term, dept, number, selector, session, step, clientId):
-    step[clientId] = "Accessing CUNYFirst Search"
-    browser = webdriver.PhantomJS()#('/Users/mikmaks/Documents/Code/django/cunyhack/CUNYsecond/api/chromedriver')
-    browser.set_window_size(800, 600)
     browser.get('https://hrsa.cunyfirst.cuny.edu/psc/cnyhcprd/GUEST/HRMxS/c/COMMUNITY_ACCESS.CLASS_SEARCH.GBL')
-
-    step[clientId] = "Passing search terms"
     deptName = ""
     collegeName = ""
+    #college select
     try:
         collegeSelect = Select(browser.find_element_by_name('CLASS_SRCH_WRK2_INSTITUTION$31$'))
         collegeSelect.select_by_value(college)
@@ -31,26 +33,29 @@ def classSearch(college, term, dept, number, selector, session, step, clientId):
         browser.quit()
         return {"error": "Invalid college query"}
     browser.find_element_by_name('CLASS_SRCH_WRK2_INSTITUTION$31$').submit()
+    #term select
     try:
         element = WebDriverWait(browser, 10).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="CLASS_SRCH_WRK2_STRM$35$"]/option[2]'))
         )
     except:
         browser.quit()
-        return {"result": "Not found"}
+        return {"error": "Not found term options"}
     try:
         termSelect = Select(browser.find_element_by_name('CLASS_SRCH_WRK2_STRM$35$'))
         termSelect.select_by_value(term)
     except:
         browser.quit()
         return {"error": "Invalid term query"}
+    wait(1)
+    #dept select
     try:
         element = WebDriverWait(browser, 10).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="SSR_CLSRCH_WRK_SUBJECT_SRCH$0"]/option[4]'))
         )
     except:
         browser.quit()
-        return {"result": "Not found"}
+        return {"error": "Not found subject options"}
     try:
         deptSelect = Select(browser.find_element_by_name('SSR_CLSRCH_WRK_SUBJECT_SRCH$0'))
         deptSelect.select_by_value(dept)
@@ -58,28 +63,66 @@ def classSearch(college, term, dept, number, selector, session, step, clientId):
     except:
         browser.quit()
         return {"error": "Invalid department query"}
+    #course number selector select
     try:
         selectorSelect = Select(browser.find_element_by_name('SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$1'))
         selectorSelect.select_by_value(selector)
     except:
         browser.quit()
         return {"error": "Invalid contains/exact match selector query"}
+    #course number input
     try:
         numberInput = browser.find_element_by_name('SSR_CLSRCH_WRK_CATALOG_NBR$1')
         numberInput.send_keys(number)
     except:
         browser.quit()
         return {"error": "Invalid class number query"}
+    #session select
     try:
         sessionSelect = Select(browser.find_element_by_name('SSR_CLSRCH_WRK_SESSION_CODE$6'))
         sessionSelect.select_by_value(session)
     except:
         browser.quit()
         return {"error": "Invalid session query"}
+    #class number input
+    try:
+        classNumberInput = browser.find_element_by_name('SSR_CLSRCH_WRK_CLASS_NBR$10')
+        classNumberInput.send_keys(classNbr)
+    except:
+        browser.quit()
+        return {"error": "Invalid class number query"}
+    #course career select
+    try:
+        courseCareerSelect = Select(browser.find_element_by_name('SSR_CLSRCH_WRK_ACAD_CAREER$2'))
+        courseCareerSelect.select_by_value(courseCareer)
+    except:
+        browser.quit()
+        return {"error": "Invalid course career query"}
+    #req designation select
+    try:
+        reqDesignationSelect = Select(browser.find_element_by_name('SSR_CLSRCH_WRK_CU_RQMNT_DESIGNTN$4'))
+        reqDesignationSelect.select_by_value(reqdes)
+    except:
+        browser.quit()
+        return {"error": "Invalid requirement designation query"}
+    #instructor last name input
+    try:
+        instructorNameInput = browser.find_element_by_name('SSR_CLSRCH_WRK_LAST_NAME$16')
+        instructorNameInput.send_keys(instructorName)
+    except:
+        browser.quit()
+        return {"error": "Invalid instructor last name query"}
+    #instructor name selector select
+    try:
+        instructorNameSelect = Select(browser.find_element_by_name('SSR_CLSRCH_WRK_SSR_EXACT_MATCH2$16'))
+        instructorNameSelect.select_by_value(instructorSelector)
+    except:
+        browser.quit()
+        return {"error": "Invalid contains/exact match selector for instructor last name query"}
 
-    browser.find_element_by_name('CLASS_SRCH_WRK2_SSR_PB_CLASS_SRCH').click()
 
-    step[clientId] = "Getting search results"
+    browser.execute_script("return submitAction_win0(document.win0,'CLASS_SRCH_WRK2_SSR_PB_CLASS_SRCH');")
+
     courses = []
     try:
         element = WebDriverWait(browser, 10).until(
@@ -92,7 +135,6 @@ def classSearch(college, term, dept, number, selector, session, step, clientId):
     courseList = browser.find_elements_by_xpath('//*[@id="ACE_$ICField$4$$0"]/tbody/tr')
     courseList.pop(0)
 
-    step[clientId] = "Scraping class info"
     sectionCounter = 0
     for course in courseList:
         courseName = course.find_element_by_id('win0divSSR_CLSRSLT_WRK_GROUPBOX2GP$' + str(courseList.index(course))).text
@@ -106,8 +148,10 @@ def classSearch(college, term, dept, number, selector, session, step, clientId):
                     sectionInstructor = section.find_element_by_id('MTG_INSTR$' + str(sectionCounter)).text
                     sectionMeetingDates = section.find_element_by_id('MTG_TOPIC$' + str(sectionCounter)).text
 
-                    step[clientId] = "Getting RateMyProfessors rating for a professor"
-                    instructorGrades = professorRating(sectionInstructor.split(',')[0], collegeName, deptName.split('-')[1].strip().split(' '))
+                    searchProfName = sectionInstructor.split(',')[0]
+                    instructorGrades = {}
+                    if (searchProfName != "Staff"):
+                        instructorGrades = professorRating(searchProfName, collegeName, deptName.split('-')[1].strip().split(' '))
 
                     sectionDict = {'times': sectionTimes, 'room': sectionRoom, 'instructor': sectionInstructor, 'instructorGrades': instructorGrades, 'meetingDates': sectionMeetingDates}
                     sections.append(sectionDict)
@@ -118,7 +162,6 @@ def classSearch(college, term, dept, number, selector, session, step, clientId):
         if courseDict['sections']:
             courses.append(courseDict)
 
-    step[clientId] = "Done"
     browser.quit()
     return {"departmentName": deptName, "courses": courses}
 
@@ -131,8 +174,9 @@ def professorRating(name, school, dept):
     if listings:
         for listing in listings:
             span = listing.find('span', class_="sub")
-            searchSchool, searchDept = span.string.split(',')
-            searchDept = searchDept.strip()
+            searchList = span.string.split(',')
+            searchSchool = searchList[0]
+            searchDept = searchList[1].strip()
             if (searchSchool == school and any(depWord in searchDept for depWord in dept)):
                 try:
                     detailsLink = 'http://www.ratemyprofessors.com' + listing.find('a').get('href')
@@ -155,13 +199,11 @@ def getGrade(item):
         key = '0'
     return key
 
-def degreeClasses(userName, passWord, step, clientId):
-    step[clientId] = "Connecting to CUNYPortal"
-    browser = webdriver.PhantomJS()#('/Users/mikmaks/Documents/Code/django/cunyhack/CUNYsecond/api/chromedriver')
-    browser.set_window_size(800, 600)
-    browser.get('https://cunyportal.cuny.edu/cpr/authenticate/portal_login.jsp')
+def degreeClasses(userName, passWord):
+    browser = webdriver.PhantomJS()
+    browser.maximize_window()
 
-    step[clientId] = "Logging into CUNYPortal"
+    browser.get('https://cunyportal.cuny.edu/cpr/authenticate/portal_login.jsp')
 
     userid = browser.find_element_by_id("userid")
     password = browser.find_element_by_id("password")
@@ -169,26 +211,32 @@ def degreeClasses(userName, passWord, step, clientId):
     password.send_keys(passWord)
     browser.find_element_by_name("image").click()
 
-    step[clientId] = "Accessing DegreeWorks"
-
     try:
         browser.get("https://degreeworks.cuny.edu/cuny_redirector.cgi")
+    except Exception as e:
+        browser.quit()
+        return {'error': 'Username or password is incorrect, or DegreeWorks is down'}
+    try:
         browser.switch_to_frame('frBody')
-        try:
-            step[clientId] = "Loading your Degree Audit"
-            element = WebDriverWait(browser, 60).until(
-                EC.presence_of_element_located((By.CLASS_NAME, 'SchoolName'))
-            )
-        except:
-            browser.quit()
-            return {'error': 'could not load DegreeWorks'}
     except:
         browser.quit()
-        return {'error': 'invalid params'}
+        return {'error': 'Could not get course info'}
+    startTime = time()
+    waiting = 0
+    frameContent = ""
+    while (waiting < 30 or frameContent[1] != '?'):
+        timeNow = time()
+        waiting = timeNow - startTime
+        frameContent = browser.page_source
+    if (frameContent[1] != '?'):
+        browser.quit()
+        return {'error': 'School info empty'}
 
-    html = browser.page_source
-    soup = BeautifulSoup(html, 'html.parser')
-    step[clientId] = "Finding needed classes"
+    xml = ET.parse(StringIO(frameContent))
+    xslt = ET.parse("/home/mikmaks/dev/CUNYsecond/cume/api/DGW_Report.xsl")
+    transform = ET.XSLT(xslt)
+    html = transform(xml)
+    soup = BeautifulSoup(ET.tostring(html), 'html.parser')
 
     schoolName = soup.find('span', class_="SchoolName").text
     needed = soup.find_all('tr', class_="bgLight0")
@@ -233,5 +281,12 @@ def degreeClasses(userName, passWord, step, clientId):
         previousReq = req
     reqsResponse = {'schoolName': schoolName, 'allRequirements': allReqs}
     browser.quit()
-    step[clientId] = "Done"
     return reqsResponse
+
+def wait(seconds):
+    startTime = time()
+    currentTime = time()
+    while (currentTime - startTime < seconds):
+        currentTime = time()
+        continue
+    return
