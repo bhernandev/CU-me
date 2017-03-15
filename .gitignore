@@ -7,3 +7,12 @@ cume/api/deanPass.py
 cume/ghostdriver.log
 cume/config/settings/secrets.json
 cume/staticfiles/*
+cume/api/AuditDisclaimer.xml
+*.xsl
+*.save
+*.1
+cume/launchserver
+cume/schedule/form.txt
+cume/schedule/ghostdriver.log
+*cume/schedule/migrations/
+cume/schedule/searchErrors.txt
