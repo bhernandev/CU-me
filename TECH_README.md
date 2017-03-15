@@ -1,4 +1,4 @@
-CU-me is a Django server with an NGINX server on top.
+### CU-me is a Django server with an NGINX server on top.
 Being Django most of my code is written in Python.
 
 #### Logging in
