@@ -15,7 +15,7 @@ I use `PhantomJS` as Selenium's webdriver. It is a headless browser, incredibly 
 
 Searching works basically the same way as logging in. When a user submits the search form, the page sends and AJAX request to the server. The server then opens a new Selenium browser and goes to the guest CUNYFirst search page, fills the search form with the user input, scrapes the results, for each professor tries to get his or her RateMyProfessors (I'll call it RMP) ratings, and then returns a JSON response.
 #### Filling the search form
-*Implemented in [searchForm.py](https://github.com/bhernandev/CUNYsecond/blob/master/cume/search/searchForm.py)*
+*Implemented in [searchForm.py](https://github.com/bhernandev/CUNYsecond/blob/master/cume/schedule/searchForm.py)*
 
 Terms change, departments are added, so the CUNYFirst search form changes. For example, Lehman still doesn't have a list of departments for the 2017 Fall term, which, I think, means they haven't added a course catalog for Fall 2017 yet. Maybe they did when you're reading this, but I promise you it was blank! Anyway, to update my form based on the CUNYFirst form, I just run a daily `cron` task, which scrapes the search form with Selenium.
 #### Drawing the schedule
