@@ -3,6 +3,9 @@ For the list of dependencies and libraries I use, check [requirements.txt](https
 
 Being Django most of my code is written in Python.
 
+#### API Endpoints
+CUNYFirst class search: cufor.me/api/search. For the list of params, check [apiRequests.py](https://github.com/bhernandev/CUNYsecond/blob/master/cume/api/apiRequests.py). Param values are taken straight from the CUNYFirst search form.
+
 #### Logging in
 *Implemented in [apiRequests.py](https://github.com/bhernandev/CUNYsecond/blob/master/cume/api/apiRequests.py)*
 
