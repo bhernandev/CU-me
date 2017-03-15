@@ -28,7 +28,7 @@ let searching = false
 $(document).ready(function() {
   for (let i = 0; i < collegesJson.length; i++) {
     if (collegesJson[i].code == college_dictionary[$('#collegeName').text()]) {
-      $('#degreeTerm').text(collegesJson[i].terms[collegesJson[i].terms.length - 1].code)
+      $('#degreeTerm').text(collegesJson[i].terms[0].code)
     }
   }
 
@@ -221,8 +221,14 @@ $(document).ready(function() {
     let dept = linkList[0]
     let courseNbr = linkList[1]
     let contains = 'E'
-    let session = ''
-    searchClasses(college, term, dept, session, contains, courseNbr, function() {
+
+    $('select[name=collegeSelect').val(college).change()
+    $('select[name=termSelect').val(term).change()
+    $('select[name=courseSelect').val(dept)
+    $('#numberInput').val(courseNbr)
+    $('select[name=containsSelect]').val(contains)
+
+    searchClasses(college, term, dept, "", contains, courseNbr, "", "", "", "", "", function() {
       searching = false
     })
     return false
@@ -247,16 +253,6 @@ function updateWidth(degreeUpdateWidth, searchUpdateWidth) {
   $('#schedule').animate({width: scheduleWidthString}, "fast", function() {
     redrawSchedule()
   })
-}
-
-function httpGetAsync(theUrl, callback) {
-  var xmlHttp = new XMLHttpRequest()
-  xmlHttp.onreadystatechange = function() {
-    if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-      callback(xmlHttp.responseText)
-  }
-  xmlHttp.open("GET", theUrl, true) // true for asynchronous
-  xmlHttp.send(null)
 }
 
 function searchClasses(college, term, dept, session, contains, courseNbr, classNbr, courseCareer, reqdes, instructorName, instructorContains, callback) {
