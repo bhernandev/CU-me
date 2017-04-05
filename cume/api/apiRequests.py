@@ -298,7 +298,10 @@ def degreeClasses(userName, passWord):
                     name = req.find('td', class_="RuleLabelTitleNeeded").text
                 except:
                     if previousReq is not None:
-                        name = previousReq.find('td', class_="RuleLabelTitleNeeded").text
+                        try:
+                            name = previousReq.find('td', class_="RuleLabelTitleNeeded").text
+                        except:
+                            name = ""
                 data = dataBlock.text
                 data = " ".join(data.split())
                 numOfCredits = int(re.search(r'\d+', data).group())
