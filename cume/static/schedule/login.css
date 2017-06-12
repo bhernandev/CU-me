@@ -1,3 +1,6 @@
+@media screen and (max-width: 738px) {
+  #guy, #gal { display: none; }
+}
 body {
   text-align: center;
   font-family: 'Lato', sans-serif;

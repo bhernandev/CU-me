@@ -317,8 +317,6 @@ $(document).ready(function() {
       while ($('#classOverlayHover-' + classCount + i + ' section').height() >= $('#classOverlayHover-' + classCount + i).height()) {
         if (parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')) > 10)
           $('#classOverlayHover-' + classCount + i + ' section').css('font-size', (parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')) - 1) + 'px')
-        // console.log('font size ' + parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')))
-        // console.log('width ' + parseInt($('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width')))
         if (parseInt($('#classOverlayHover-' + classCount + i + ' section').css('width')) > 130)
           $('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width', (parseInt($('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width')) - 2) + 'px')
 
@@ -326,8 +324,6 @@ $(document).ready(function() {
           $('#classOverlayHover-' + classCount + i).css('overflow', 'scroll')
           break
         }
-        // console.log('inner height ' + $('#classOverlayHover-' + classCount + i + ' section').height())
-        // console.log('container height ' + $('#classOverlayHover-' + classCount + i).height())
       }
       $('#classOverlayHover-' + classCount + i).hide()
     }

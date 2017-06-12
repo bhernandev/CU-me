@@ -183,7 +183,7 @@ $(document).ready(function() {
     let timeEnd = timesSplit[3]
 
     let days = []
-    for (let i = 0; i < daysUnsplit.length; i+=2) {
+    for (let i = 0, daysUnsplitLength = daysUnsplit.length; i < daysUnsplitLength; i+=2) {
       let day = times[i] + times[i+1]
       if (currentScheduleEndDay < daysToNums.indexOf(day)) {
         currentScheduleEndDay = daysToNums.indexOf(day)
@@ -315,17 +315,13 @@ $(document).ready(function() {
       while ($('#classOverlayHover-' + classCount + i + ' section').height() >= $('#classOverlayHover-' + classCount + i).height()) {
         if (parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')) > 10)
           $('#classOverlayHover-' + classCount + i + ' section').css('font-size', (parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')) - 1) + 'px')
-        // console.log('font size ' + parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')))
-        // console.log('width ' + parseInt($('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width')))
         if (parseInt($('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width')) > 25)
           $('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width', (parseInt($('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width')) - 2) + 'px')
 
-        if (parseInt($('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width')) <= 25 && parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')) <= 10) {
+        if (($('#classOverlayHover-' + classCount + i + ' .classOverlayImg').length == false || parseInt($('#classOverlayHover-' + classCount + i + ' .classOverlayImg').css('width')) <= 25) && parseInt($('#classOverlayHover-' + classCount + i + ' section').css('font-size')) <= 10) {
           $('#classOverlayHover-' + classCount + i).css('overflow-y', 'scroll')
           break
         }
-        // console.log('inner height ' + $('#classOverlayHover-' + classCount + i + ' section').height())
-        // console.log('container height ' + $('#classOverlayHover-' + classCount + i).height())
       }
       $('#classOverlayHover-' + classCount + i).hide()
     }
